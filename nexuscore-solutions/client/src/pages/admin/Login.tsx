@@ -69,7 +69,7 @@ const Login: React.FC = () => {
       >
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl mb-4">
-            <span className="text-3xl font-bold text-primary-600">N</span>
+            <span className="text-3xl font-bold text-primary-600">NC</span>
           </div>
           <h1 className="text-3xl font-heading font-bold text-white mb-2">
             {APP_NAME}
@@ -117,7 +117,7 @@ const Login: React.FC = () => {
 
           <div className="mt-6 text-center text-sm text-gray-500">
             <p>Default credentials:</p>
-            <p className="font-mono">admin@nexuscore.com / admin123456</p>
+            <p className="font-mono">admin@nexuscore.com / 123456</p>
           </div>
         </Card>
       </motion.div>

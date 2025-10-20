@@ -14,7 +14,7 @@ export const Footer: React.FC = () => {
           <div className="col-span-1">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">N</span>
+                <span className="text-white font-bold text-xl">NC</span>
               </div>
               <span className="text-xl font-bold text-white">{APP_NAME}</span>
             </div>
@@ -93,13 +93,12 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <span className="text-sm">+20 1063698866</span>
               </li>
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
                 <span className="text-sm">
-                  123 Tech Boulevard<br />
-                  Silicon Valley, CA 94025
+                  Cairo, Egypt
                 </span>
               </li>
             </ul>

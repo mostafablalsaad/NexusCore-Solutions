@@ -90,7 +90,7 @@ app.use('/api/admin', dashboardRoutes);
 const { protect, admin } = require('./middleware/auth');
 
 // Services admin routes
-// app.use('/api/admin/services', protect, admin, serviceRoutes);
+app.use('/api/admin/services', protect, admin, serviceRoutes);
 
 // Projects admin routes
 app.use('/api/admin/projects', protect, admin, projectRoutes);

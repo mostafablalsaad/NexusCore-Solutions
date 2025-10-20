@@ -22,7 +22,12 @@ import Contact from './pages/Contact';
 
 // Admin Pages
 import AdminLogin from './pages/admin/Login';
-// import AdminDashboard from './pages/admin/Dashboard';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageServices from './components/admin/ManageServices';
+import ManageProjects from './components/admin/ManageProjects';
+
+
+
 // import ManageServices from './pages/admin/ManageServices';
 // import ManageProjects from './pages/admin/ManageProjects';
 // import ManageCaseStudies from './pages/admin/ManageCaseStudies';
@@ -55,7 +60,7 @@ function App() {
               {/* Admin Auth Route */}
               <Route path={ROUTES.ADMIN.LOGIN} element={<AdminLogin />} />
 
-              {/* Protected Admin Routes
+              Protected Admin Routes
               <Route
                 path={ROUTES.ADMIN.DASHBOARD}
                 element={
@@ -63,16 +68,16 @@ function App() {
                     <AdminDashboard />
                   </ProtectedRoute>
                 }
-              /> */}
-              {/* <Route
+              />
+              <Route
                 path={ROUTES.ADMIN.SERVICES}
                 element={
                   <ProtectedRoute>
                     <ManageServices />
                   </ProtectedRoute>
                 }
-              /> */}
-              {/* <Route
+              />
+               <Route
                 path={ROUTES.ADMIN.PROJECTS}
                 element={
                   <ProtectedRoute>
@@ -80,6 +85,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              {/*
               <Route
                 path={ROUTES.ADMIN.CASE_STUDIES}
                 element={
