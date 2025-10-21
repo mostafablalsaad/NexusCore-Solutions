@@ -12,6 +12,7 @@ const validate = (schema) => {
         field: detail.path[0],
         message: detail.message,
       }));
+      console.log('Validation errors:', errors);
       return res.status(400).json({ errors });
     }
 
@@ -43,7 +44,7 @@ const schemas = {
     title: Joi.string().min(3).max(200).required(),
     description: Joi.string().min(10).required(),
     industryTags: Joi.array().items(
-      Joi.string().valid('renewable', 'medical', 'submarine', 'petroleum', 'automotive')
+      Joi.string().valid('renewable', 'medical', 'submarine', 'petroleum', 'automotive','home appliances')
     ),
     icon: Joi.string().uri(),
     order: Joi.number().integer().min(0),
@@ -54,7 +55,7 @@ const schemas = {
     title: Joi.string().min(3).max(200).required(),
     shortDesc: Joi.string().min(10).max(200).required(),
     fullDesc: Joi.string().min(50).required(),
-    industry: Joi.string().valid('renewable', 'medical', 'submarine', 'petroleum', 'automotive').required(),
+    industry: Joi.string().valid('renewable', 'medical', 'submarine', 'petroleum', 'automotive','home appliances').required(),
     thumbnail: Joi.string().uri().required(),
     gallery: Joi.array().items(Joi.string().uri()),
     featured: Joi.boolean(),

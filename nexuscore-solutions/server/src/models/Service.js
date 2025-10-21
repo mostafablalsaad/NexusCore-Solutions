@@ -11,7 +11,7 @@ const serviceSchema = new mongoose.Schema({
   },
   industryTags: [{
     type: String,
-    enum: ['renewable', 'medical', 'submarine', 'petroleum', 'automotive'],
+    enum: ['renewable', 'medical', 'submarine', 'petroleum', 'automotive','home appliances'],
   }],
   icon: {
     type: String,
