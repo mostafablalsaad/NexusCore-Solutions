@@ -24,7 +24,7 @@ app.use(helmet({
 //   : ['http://localhost:5173'];
 
 
-const allowedOrigins = "https://nexus-core-solutions-backend.vercel.app/"
+const allowedOrigins = "https://nexus-core-solutions-ybki.vercel.app"
 
   console.log("the origin of the cors for the production",allowedOrigins);
 app.use(cors({
