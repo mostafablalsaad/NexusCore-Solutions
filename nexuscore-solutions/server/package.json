@@ -10,11 +10,17 @@
     "seed": "node src/utils/seed.js",
     "create-admin": "node src/utils/createAdmin.js"
   },
-  "keywords": ["express", "mongodb", "rest-api", "serverless", "vercel"],
+  "keywords": [
+    "express",
+    "mongodb",
+    "rest-api",
+    "serverless",
+    "vercel"
+  ],
   "author": "NexusCore Solutions",
   "license": "MIT",
   "dependencies": {
-    "@sendgrid/mail": "^8.1.0",
+    "@sendgrid/mail": "^8.1.6",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.0",
     "compression": "^1.7.4",

@@ -13,6 +13,9 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     enum: ['renewable', 'medical', 'submarine', 'petroleum', 'automotive','home appliances'],
   }],
+  imageUpdated: {
+    type: String,
+  },
   icon: {
     type: String,
   },

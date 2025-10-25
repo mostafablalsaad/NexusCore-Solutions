@@ -41,6 +41,7 @@ const ManageServices: React.FC = () => {
       description: '',
       industryTags: '',
       icon: '',
+      imageUpdated: '',
       order: 0,
       featured: false,
     },
@@ -52,6 +53,7 @@ const ManageServices: React.FC = () => {
         };
 
         if (editingService) {
+          
           await api.put(`/admin/services/${editingService._id}`, payload);
           showSuccess('Service updated successfully');
         } else {
@@ -76,6 +78,7 @@ const ManageServices: React.FC = () => {
       description: service.description,
       industryTags: service.industryTags.join(', '),
       icon: service.icon || '',
+      imageUpdated: service.imageUpdated || '',
       order: service.order,
       featured: service.featured,
     });
@@ -190,6 +193,12 @@ const ManageServices: React.FC = () => {
               label="Icon"
               name="icon"
               value={values.icon}
+              onChange={handleChange}
+            />
+            <Input
+              label="imageUpload"
+              name="imageUpload"
+              value={values.imageUpdated}
               onChange={handleChange}
             />
             <Input

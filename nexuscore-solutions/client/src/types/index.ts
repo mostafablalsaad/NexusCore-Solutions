@@ -11,6 +11,7 @@ export interface Service {
   description: string;
   industryTags: Industry[];
   icon?: string;
+  imageUpdated?: string;
   order: number;
   featured: boolean;
   createdAt: string;

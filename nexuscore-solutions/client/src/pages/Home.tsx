@@ -51,7 +51,7 @@ const Home: React.FC = () => {
               Engineering Excellence for Critical Industries
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Leading provider of simulation and embedded systems solutions for renewable energy, medical devices, submarine systems, petroleum,automotive and home appliances industries.
+              Leading provider of simulation and embedded systems solutions for renewable energy, medical devices, submarine systems, petroleum, and automotive industries.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" variant="secondary" onClick={() => window.location.href = ROUTES.PROJECTS}>
@@ -108,9 +108,9 @@ const Home: React.FC = () => {
       </section>
 
       {/* Featured Services */}
-      <section className="py-16 relative">
+      <section className="py-16 relative" id="services">
         {/* Background Image with Overlay */}
-        <div className="absolute inset-0 bg-[url(assets/battery.jpg)] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 "></div>
         
         <div className="container-custom relative z-10">
           <div className="text-center mb-12">
@@ -131,49 +131,59 @@ const Home: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="p-6 h-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm" hoverable>
-                  {/* Service Icon */}
-                  {service.icon ? (
-                    <div className="mb-4">
-                      <img 
-                        src={service.icon} 
-                        alt={`${service.title} icon`}
-                        className="w-16 h-16 object-contain"
-                        onError={(e) => {
-                          // Fallback to default icon if image fails to load
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                        }}
-                      />
-                      {/* Fallback icon */}
-                      <div className="hidden w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
-                        <Zap className="w-8 h-8 text-primary-600 dark:text-primary-400" />
-                      </div>
-                    </div>
-                  ) : (
-                    // Default icon if no icon is uploaded
-                    <div className="mb-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
-                        <Zap className="w-8 h-8 text-white" />
-                      </div>
-                    </div>
+                <Card className="p-6 h-full bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm overflow-hidden relative" hoverable>
+                  {/* Background Image for Card */}
+                  {service.imageUpdated && (
+                    <div 
+                      className="absolute inset-0 opacity-10 bg-cover bg-center"
+                      style={{ backgroundImage: `url(${service.imageUpdated})` }}
+                    />
                   )}
-
-                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    {service.description}
-                  </p>
                   
-                  {/* Industry Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {service.industryTags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  <div className="flex flex-col items-center text-center relative z-10">
+                    {/* Service Icon */}
+                    {service.icon ? (
+                      <div className="mb-4">
+                        <img 
+                          src={service.icon} 
+                          alt={`${service.title} icon`}
+                          className="w-16 h-16 object-contain"
+                          onError={(e) => {
+                            // Fallback to default icon if image fails to load
+                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                          }}
+                        />
+                        {/* Fallback icon */}
+                        <div className="hidden w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
+                          <Zap className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+                        </div>
+                      </div>
+                    ) : (
+                      // Default icon if no icon is uploaded
+                      <div className="mb-4">
+                        <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+                          <Zap className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                    )}
+
+                    <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      {service.description}
+                    </p>
+                    
+                    {/* Industry Tags */}
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {service.industryTags?.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </Card>
               </motion.div>

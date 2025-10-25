@@ -31,7 +31,8 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto">
+    <div className='flex flex-row md:flex-row gap-4 max-w-md mx-auto items-center justify-center '>
+    <form onSubmit={handleSubmit} className="flex w-full gap-2 flex-col md:flex-row bg-white/10 p-4 rounded-lg shadow-md">
       <input
         type="email"
         value={email}
@@ -48,6 +49,7 @@ const Contact: React.FC = () => {
         Subscribe
       </Button>
     </form>
+    </div>
   );
 };
 

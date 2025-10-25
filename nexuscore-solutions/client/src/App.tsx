@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +25,7 @@ import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageServices from './components/admin/ManageServices';
 import ManageProjects from './components/admin/ManageProjects';
+import Services from './pages/Services';
 
 
 
@@ -46,7 +47,7 @@ function App() {
             <Routes>
               {/* Public Routes */}
               <Route path={ROUTES.HOME} element={<Home />} />
-              {/* <Route path={ROUTES.SERVICES} element={<Services />} /> */}
+              <Route path={ROUTES.SERVICES} element={<Services />} />
               <Route path={ROUTES.PROJECTS} element={<Projects />} />
               {/* <Route path="/projects/:id" element={<ProjectDetail />} /> */}
               <Route path={ROUTES.CASE_STUDIES} element={<CaseStudies />} />

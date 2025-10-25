@@ -11,7 +11,8 @@ exports.subscribe = async (req, res) => {
     // Check if already subscribed
     let subscriber = await NewsletterSubscriber.findOne({ email });
 
-    if (subscriber) {
+    console.log("this is the subsriber"+subscriber);
+    if (subscriber.unsubscribed) {
       if (subscriber.confirmed) {
         return res.status(400).json({ 
           error: 'Email is already subscribed to our newsletter' 
@@ -27,8 +28,11 @@ exports.subscribe = async (req, res) => {
       }
     } else {
       // Create new subscriber
-      subscriber = await NewsletterSubscriber.create({ email });
-      subscriber.generateConfirmToken();
+
+    subscriber =  new NewsletterSubscriber.create({ email });
+
+    subscriber.generateConfirmToken();
+    
       await subscriber.save();
     }
 

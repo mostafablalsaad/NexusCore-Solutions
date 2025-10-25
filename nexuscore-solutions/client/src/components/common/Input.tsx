@@ -22,6 +22,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               {icon}
             </div>
           )}
+          
           <input
             ref={ref}
             className={`
