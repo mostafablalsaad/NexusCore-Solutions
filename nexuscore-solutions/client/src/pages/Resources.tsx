@@ -30,7 +30,7 @@ const Resources: React.FC = () => {
     fetchWhitepapers();
   }, []);
 
-  const handleDownload = async (id: string, title: string) => {
+  const handleDownload = async (id: string) => {
     try {
       const response = await api.get(`/whitepapers/${id}/download`);
       window.open(response.data.data.pdfUrl, '_blank');
@@ -139,7 +139,7 @@ const Resources: React.FC = () => {
                   <Button
                     variant="primary"
                     fullWidth
-                    onClick={() => handleDownload(paper._id, paper.title)}
+                    onClick={() => handleDownload(paper._id)}
                   >
                     <Download className="mr-2 w-4 h-4" /> Download PDF
                   </Button>

@@ -7,7 +7,7 @@ import { Badge } from '@/components/common/Badge';
 import { Award, Calendar } from 'lucide-react';
 import api from '@/utils/api';
 import { Achievement } from '@/types';
-import { formatDate } from '@/utils/helpers';
+// import { formatDate } from '@/utils/helpers';
 import { motion } from 'framer-motion';
 import { ACHIEVEMENT_TYPES } from '@/utils/constants';
 
