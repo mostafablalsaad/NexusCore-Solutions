@@ -10,7 +10,7 @@ export const useScrollToTop = () => {
 };
 
 // client/src/hooks/useLocalStorage.ts
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export const useLocalStorage = <T,>(
   key: string,

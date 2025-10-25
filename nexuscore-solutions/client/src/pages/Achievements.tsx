@@ -127,7 +127,7 @@ const Achievements: React.FC = () => {
 
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                     <Calendar className="w-4 h-4" />
-                    <span>{formatDate(achievement.date, 'MMMM yyyy')}</span>
+                    {/* <span>{formatDate(achievement.date, 'MMMM yyyy')}</span> */}
                   </div>
                 </Card>
               </motion.div>

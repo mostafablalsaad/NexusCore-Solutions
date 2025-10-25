@@ -163,7 +163,7 @@ const AdminDashboard: React.FC = () => {
                         <p className="font-medium truncate">{message.name}</p>
                         <span className="text-xs text-gray-500 flex items-center gap-1">
                           <Clock className="w-3 h-3" />
-                          {formatDate(message.createdAt, 'MMM dd')}
+                          {/* {formatDate(message.createdAt, 'MMM dd')} */}
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
@@ -174,7 +174,7 @@ const AdminDashboard: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                ))
+              ))
               )}
             </div>
           </Card>
