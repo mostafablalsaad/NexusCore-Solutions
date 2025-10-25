@@ -1,9 +1,31 @@
+// src/components/common/Button.tsx
 import type { FC, ButtonHTMLAttributes, ReactNode } from 'react';
-import { motion, MotionProps } from 'framer-motion';
+import { motion, type MotionProps } from 'framer-motion';
 
+type MotionAllowed = Pick<
+  MotionProps,
+  | 'initial'
+  | 'animate'
+  | 'exit'
+  | 'whileHover'
+  | 'whileTap'
+  | 'whileFocus'
+  | 'whileDrag'
+  | 'transition'
+>;
+
+// Omit DOM event props that conflict with framer-motion handler signatures
 type HtmlButtonSafe = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  'onAnimationStart' | 'onAnimationEnd'
+  | 'onAnimationStart'
+  | 'onAnimationEnd'
+  | 'onDrag'
+  | 'onDragStart'
+  | 'onDragEnd'
+  | 'onDragEnter'
+  | 'onDragLeave'
+  | 'onDragOver'
+  | 'onDrop'
 >;
 
 interface BaseProps {
@@ -15,8 +37,7 @@ interface BaseProps {
   className?: string;
 }
 
-// combine safe html props + optional motion props + our custom props
-type ButtonProps = HtmlButtonSafe & Partial<MotionProps> & BaseProps;
+export type ButtonProps = HtmlButtonSafe & BaseProps & Partial<MotionAllowed>;
 
 export const Button: FC<ButtonProps> = ({
   children,
@@ -27,8 +48,17 @@ export const Button: FC<ButtonProps> = ({
   fullWidth = false,
   className = '',
   disabled,
-  // gather rest (includes safe HTML attrs and optional MotionProps)
-  ...props
+  // motion props (allowed subset)
+  initial,
+  animate,
+  exit,
+  whileHover,
+  whileTap,
+  whileFocus,
+  whileDrag,
+  transition,
+  // rest -> html props (no animation/drag events because we omitted them)
+  ...htmlProps
 }) => {
   const baseStyles =
     'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
@@ -47,29 +77,18 @@ export const Button: FC<ButtonProps> = ({
     lg: 'px-6 py-3 text-lg gap-2.5',
   };
 
-  // Separate motion-specific props if the caller passed any (so TS knows what we pass)
-  const {
-    // common MotionProps you may want to allow callers to pass
-    whileHover,
-    whileTap,
-    initial,
-    animate,
-    exit,
-    transition,
-    // rest are HTML props
-    ...htmlProps
-  } = props as Partial<MotionProps> & HtmlButtonSafe;
-
   return (
     <motion.button
-      // motion props (only the subset we want to forward)
-      whileHover={whileHover ?? (disabled || loading ? undefined : { scale: 1.02 })}
-      whileTap={whileTap ?? (disabled || loading ? undefined : { scale: 0.98 })}
+      // forward only the safe subset of motion props
       initial={initial}
       animate={animate}
       exit={exit}
+      whileHover={whileHover ?? (disabled || loading ? undefined : { scale: 1.02 })}
+      whileTap={whileTap ?? (disabled || loading ? undefined : { scale: 0.98 })}
+      whileFocus={whileFocus}
+      whileDrag={whileDrag}
       transition={transition}
-      // spread HTML props (cast to the safe HTML type for TS)
+      // spread safe html props (typed as HtmlButtonSafe)
       {...(htmlProps as HtmlButtonSafe)}
       className={`
         ${baseStyles}
@@ -79,6 +98,7 @@ export const Button: FC<ButtonProps> = ({
         ${className}
       `}
       disabled={disabled || loading}
+      aria-disabled={disabled || loading}
     >
       {loading && (
         <svg className="animate-spin h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" aria-hidden>
@@ -91,3 +111,5 @@ export const Button: FC<ButtonProps> = ({
     </motion.button>
   );
 };
+
+export default Button;
