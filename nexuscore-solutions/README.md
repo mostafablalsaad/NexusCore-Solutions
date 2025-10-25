@@ -121,7 +121,7 @@ NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/nexuscore
 
 # JWT
-JWT_SECRET=your-super-secret-jwt-key-change-in-production-min-32-chars
+JWT_SECRET=16c4e681ffe789e1954d78bda54b2db9d3ca3762fc6f7201e5572bcf0340c3d2
 JWT_EXPIRE=7d
 
 # Email (SendGrid)
