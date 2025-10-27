@@ -10,14 +10,15 @@ exports.getProjects = async (req, res) => {
 
     if (industry) query.industry = industry;
     if (featured) query.featured = featured === 'true';
-
-    let projectsQuery = Project.find(query).sort({ order: 1, createdAt: -1 });
-
+    console.log("mostafa error before ");
+    let projectsQuery = await Project.find(query).sort({ order: 1, createdAt: -1 });
+    console.log("mostafa error");
+    
     if (limit) {
       projectsQuery = projectsQuery.limit(parseInt(limit));
     }
 
-    const projects = await projectsQuery;
+    const projects =  projectsQuery;
 
     res.json({
       success: true,
@@ -25,7 +26,7 @@ exports.getProjects = async (req, res) => {
       data: projects,
     });
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching projects' });
+    res.status(500).json({ error: 'Error fetching projects ' });
   }
 };
 
