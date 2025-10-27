@@ -13,7 +13,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       maxPoolSize: 10, // Important for serverless
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 50000,
       socketTimeoutMS: 45000,
     };
 

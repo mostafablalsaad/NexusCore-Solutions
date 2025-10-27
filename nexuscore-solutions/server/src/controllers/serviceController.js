@@ -11,10 +11,11 @@ exports.getServices = async (req, res) => {
     if (industry) query.industryTags = industry;
     if (featured) query.featured = featured === 'true';
    
-
+    console.log("steped into the get services function ");
+    
     const services = await Service.find(query).sort({ order: 1, createdAt: -1 });
    
-
+    
     res.json({
       success: true,
       count: services.length,
