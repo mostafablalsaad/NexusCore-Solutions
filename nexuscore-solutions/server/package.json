@@ -2,10 +2,10 @@
   "name": "nexuscore-server",
   "version": "1.0.0",
   "description": "NexusCore Solutions Backend API - Serverless",
-  "main": "api/server.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js",
     "vercel-build": "echo 'Build complete'",
     "seed": "node src/utils/seed.js",
     "create-admin": "node src/utils/createAdmin.js"
