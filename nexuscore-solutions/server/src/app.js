@@ -84,7 +84,9 @@ const dashboardRoutes = require('./routes/dashboard');
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
-app.use('/api/projects', projectRoutes);
+app.use('/api/projects', (req,res)=>{
+  res.status(200).json({message:"projects route is working"});
+});
 app.use('/api/case-studies', caseStudyRoutes);
 app.use('/api/whitepapers', whitepaperRoutes);
 app.use('/api/team', teamRoutes);
