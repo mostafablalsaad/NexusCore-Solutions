@@ -3,7 +3,7 @@ const serverless = require('serverless-http');
 const app = require('../src/app'); // path to the express app
 
 
-if(process.env.NODE_ENV !== 'development') {
+if(process.env.NODE_ENV !== 'deployment') {
   
 const PORT = process.env.PORT || 5000;
 // if server is not running in serverless mode, start the server
