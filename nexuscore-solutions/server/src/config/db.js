@@ -25,6 +25,8 @@ const connectDB = async () => {
     return conn;
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    console.log("error in fetching the data bases for the mongooooooos ");
+    
     throw error;
   }
 };
