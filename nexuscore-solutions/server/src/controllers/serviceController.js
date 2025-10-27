@@ -19,7 +19,7 @@ exports.getServices = async (req, res) => {
       data: services,
     });
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching services' });
+    res.status(500).json({ error: {"error1":'Error fetching services',"error" :error.message} });
   }
 };
 
