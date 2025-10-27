@@ -20,8 +20,8 @@ app.use(helmet({
 
 // CORS configuration
 const allowedOrigins = process.env.CLIENT_URL 
-  ? process.env.CLIENT_URL.split(',').map(url => url.trim())
-  : ['http://localhost:5173',"https://nexus-core-solutions-ybki.vercel.app"];
+  ? process.env.CLIENT_URL
+  : 'http://localhost:5173';
 
 
 
