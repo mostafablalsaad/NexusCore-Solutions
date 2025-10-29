@@ -1,4 +1,5 @@
 {
+    
   "version": 2,
   "builds": [
     {
@@ -20,6 +21,12 @@
     {
       "src": "/(.*)",
       "dest": "/index.html"
+    },
+    
+    {
+        "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
     }
+    
+    
   ]
 }
