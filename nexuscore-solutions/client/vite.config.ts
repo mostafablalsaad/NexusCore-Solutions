@@ -9,7 +9,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  publicDir: 'public',
   server: {
     port: 5173,
    
@@ -17,7 +16,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    assetsDir: 'assets',
     rollupOptions: {
       output: {
         manualChunks: {
