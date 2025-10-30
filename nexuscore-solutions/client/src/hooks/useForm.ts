@@ -6,7 +6,8 @@ interface UseFormOptions<T> {
   onSubmit: (values: T) => Promise<void> | void;
 }
 
-export const useForm = <T extends Record<string, any>>({
+export const useForm = <T extends Record<string, any>>(
+  {
   initialValues,
   validate,
   onSubmit,
@@ -47,9 +48,10 @@ export const useForm = <T extends Record<string, any>>({
     setIsSubmitting(true);
     try {
       await onSubmit(values);
-      setValues(initialValues); // Reset form
+      // Don't auto-reset - let the parent component decide when to reset
     } catch (error) {
       console.error('Form submission error:', error);
+      // Keep form values on error so user can fix and resubmit
     } finally {
       setIsSubmitting(false);
     }

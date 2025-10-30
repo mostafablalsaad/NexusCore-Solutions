@@ -77,7 +77,7 @@ const Home: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
               Why Choose NexusCore?
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
               Delivering mission-critical solutions with proven expertise
             </p>
           </motion.div>
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
                 <Card className="p-6 text-center h-full" hoverable>
                   <item.icon className="w-12 h-12 mx-auto mb-4 text-primary-600" />
                   <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">{item.desc}</p>
+                  <p className="text-gray-700 dark:text-gray-300">{item.desc}</p>
                 </Card>
               </motion.div>
             ))}

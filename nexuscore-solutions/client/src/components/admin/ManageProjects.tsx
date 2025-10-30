@@ -20,6 +20,7 @@ const ManageProjects: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [serverError, setServerError] = useState<string>('');
   const { showSuccess, showError } = useToast();
 
   const fetchProjects = async () => {
@@ -37,22 +38,58 @@ const ManageProjects: React.FC = () => {
     fetchProjects();
   }, []);
 
+  const getInitialValues = () => ({
+    title: '',
+    shortDesc: '',
+    fullDesc: '',
+    industry: 'renewable',
+    thumbnail: '',
+    gallery: '',
+    technologies: '',
+    clientName: '',
+    completionDate: '',
+    featured: false,
+    order: 0,
+  });
+
+  const validateForm = (values: any) => {
+    const errors: any = {};
+
+    if (!values.title || values.title.trim() === '') {
+      errors.title = 'Title is required';
+    }
+
+    if (!values.shortDesc || values.shortDesc.trim() === '') {
+      errors.shortDesc = 'Short description is required';
+    }
+
+    if (!values.fullDesc || values.fullDesc.trim() === '') {
+      errors.fullDesc = 'Full description is required';
+    }
+
+    if (!values.thumbnail || values.thumbnail.trim() === '') {
+      errors.thumbnail = 'Thumbnail URL is required';
+    } else if (!/^https?:\/\/.+/.test(values.thumbnail)) {
+      errors.thumbnail = 'Please enter a valid URL starting with http:// or https://';
+    }
+
+    if (values.gallery && values.gallery.trim()) {
+      const urls = values.gallery.split(',').map((url: string) => url.trim());
+      const invalidUrls = urls.filter((url: string) => url && !/^https?:\/\/.+/.test(url));
+      if (invalidUrls.length > 0) {
+        errors.gallery = 'All gallery URLs must be valid and start with http:// or https://';
+      }
+    }
+
+    return errors;
+  };
+
   const { values, errors, isSubmitting, handleChange, handleSubmit, reset, setValues } = useForm({
-    initialValues: {
-      title: '',
-      shortDesc: '',
-      fullDesc: '',
-      industry: 'renewable',
-      thumbnail: '',
-      gallery: '',
-      technologies: '',
-      clientName: '',
-      completionDate: '',
-      featured: false,
-      order: 0,
-    },
+    initialValues: getInitialValues(),
+    validate: validateForm,
     onSubmit: async (values) => {
       try {
+        setServerError(''); // Clear previous server errors
         const payload = {
           ...values,
           gallery: values.gallery ? values.gallery.split(',').map(url => url.trim()).filter(Boolean) : [],
@@ -70,15 +107,21 @@ const ManageProjects: React.FC = () => {
         setIsModalOpen(false);
         reset();
         setEditingProject(null);
+        setServerError('');
         fetchProjects();
       } catch (error: any) {
-        showError(error.response?.data?.error || 'Operation failed');
+        const errorMessage = error.response?.data?.error || error.response?.data?.message || 'Operation failed. Please check your input and try again.';
+        setServerError(errorMessage);
+        showError(errorMessage);
+        // Form data will be preserved due to the error
       }
     },
   });
 
+
   const handleEdit = (project: Project) => {
     setEditingProject(project);
+    setServerError('');
     setValues({
       title: project.title,
       shortDesc: project.shortDesc,
@@ -125,7 +168,7 @@ const ManageProjects: React.FC = () => {
               Total projects: {projects.length}
             </p>
           </div>
-          <Button onClick={() => { reset(); setIsModalOpen(true); }} icon={<Plus />}>
+          <Button onClick={() => { reset(); setEditingProject(null); setServerError(''); setIsModalOpen(true); }} icon={<Plus />}>
             Add Project
           </Button>
         </div>
@@ -164,14 +207,46 @@ const ManageProjects: React.FC = () => {
         <Modal
           isOpen={isModalOpen}
           onClose={() => {
-            setIsModalOpen(false);
-            reset();
-            setEditingProject(null);
+            if (confirm('Are you sure you want to close? All unsaved changes will be lost.')) {
+              setIsModalOpen(false);
+              reset();
+              setEditingProject(null);
+              setServerError('');
+            }
           }}
           title={editingProject ? 'Edit Project' : 'Add Project'}
           size="lg"
         >
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Error Summary Banner */}
+            {(Object.keys(errors).length > 0 || serverError) && (
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
+                      {serverError ? 'Server Error' : 'Please fix the following errors:'}
+                    </h3>
+                    {serverError ? (
+                      <div className="mt-2 text-sm text-red-700 dark:text-red-300">
+                        {serverError}
+                      </div>
+                    ) : (
+                      <ul className="mt-2 text-sm text-red-700 dark:text-red-300 list-disc list-inside space-y-1">
+                        {Object.entries(errors).map(([field, error]) => (
+                          <li key={field}>{error as string}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <Input
               label="Title *"
               name="title"
@@ -213,6 +288,7 @@ const ManageProjects: React.FC = () => {
               name="gallery"
               value={values.gallery}
               onChange={handleChange}
+              error={errors.gallery}
             />
             <Input
               label="Technologies (comma separated)"
@@ -256,13 +332,21 @@ const ManageProjects: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  if (confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+                    reset();
+                    setEditingProject(null);
+                    setServerError('');
+                    setIsModalOpen(false);
+                  }
+                }}
               >
                 Cancel
               </Button>
             </div>
           </form>
         </Modal>
+
       </div>
     </AdminLayout>
   );

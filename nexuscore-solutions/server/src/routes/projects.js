@@ -15,7 +15,8 @@ router.get('/', getProjects);
 router.get('/:id', getProject);
 
 // Admin routes
-router.post('/', protect, admin, validate(schemas.project), createProject);
+// router.post('/', protect, admin, validate(schemas.project), createProject);
+router.post('/', protect, admin, createProject);
 router.put('/:id', protect, admin, validate(schemas.project), updateProject);
 router.delete('/:id', protect, admin, deleteProject);
 

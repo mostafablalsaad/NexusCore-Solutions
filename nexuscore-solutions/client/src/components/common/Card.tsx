@@ -16,10 +16,12 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <motion.div
-      whileHover={hoverable ? { y: -5, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)', opacity:20} : {}}
+      whileHover={hoverable ? { y: -5, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)', opacity: 1 } : {}}
+      initial={{ opacity: hoverable ? 0.6 : 1 }}
+      animate={{ opacity: hoverable ? 0.7 : 1 }}
       className={`
-        bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden opacity-100
-        ${hoverable ? 'cursor-pointer opacity-30' : ''}
+        bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden
+        ${hoverable ? 'cursor-pointer' : ''}
         ${className}
       `}
       onClick={onClick}

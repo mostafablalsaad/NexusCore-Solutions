@@ -21,13 +21,13 @@ app.use(helmet({
 }));
 
 // CORS configuration
-const allowedOrigins = process.env.CLIENT_URL 
-  ? process.env.CLIENT_URL
-  : "*";
 
+const allowedOrigins = "http://localhost:5174";
+// const allowedOrigins = process.env.CLIENT_URL 
+//   ? process.env.CLIENT_URL
+//   :  "*";
 
-
-  console.log("the origin of the cors for the production",allowedOrigins);
+console.log("the origin of the cors for the production",allowedOrigins);
 app.use(cors({
   origin: function(origin, callback) {
     console.log("the origin of the cors",origin);
@@ -86,9 +86,7 @@ const dashboardRoutes = require('./routes/dashboard');
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
-app.use('/api/projects', (req,res)=>{
-  res.status(200).json({message:"projects route is working"});
-});
+app.use('/api/projects',projectRoutes);
 app.use('/api/case-studies', caseStudyRoutes);
 app.use('/api/whitepapers', whitepaperRoutes);
 app.use('/api/team', teamRoutes);

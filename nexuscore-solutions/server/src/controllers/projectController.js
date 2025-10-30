@@ -10,14 +10,15 @@ exports.getProjects = async (req, res) => {
 
     if (industry) query.industry = industry;
     if (featured) query.featured = featured === 'true';
-    console.log("mostafa error before ");
-    let projectsQuery = await Project.find(query).sort({ order: 1, createdAt: -1 });
-    console.log("mostafa error");
     
+    let projectsQuery = await Project.find(query).sort({ order: 1, createdAt: -1 });
+    
+    
+    // console.log("projectQuery",projectsQuery);
     if (limit) {
-      projectsQuery = projectsQuery.limit(parseInt(limit));
+      projectsQuery = projectsQuery.slice(0,parseInt(limit));
     }
-
+    
     const projects =  projectsQuery;
 
     res.json({
