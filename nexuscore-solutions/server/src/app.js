@@ -21,26 +21,28 @@ app.use(helmet({
 }));
 
 // CORS configuration
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map(url => url.trim())
+  : ["http://localhost:5173", "http://localhost:5174"];
 
-// const allowedOrigins = "http://localhost:5174";
-const allowedOrigins = process.env.CLIENT_URL 
-  ? process.env.CLIENT_URL
-  :  "*";
+console.log("Allowed CORS origins:", allowedOrigins);
 
-console.log("the origin of the cors for the production",allowedOrigins);
 app.use(cors({
   origin: function(origin, callback) {
-    console.log("the origin of the cors",origin);
-    
+    // Allow requests with no origin (mobile apps, curl, etc)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      return callback(new Error('CORS not allowed'), false);
+
+    // Check if origin is in allowed list or wildcard
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      return callback(null, true);
     }
-    return callback(null, true);
+
+    console.warn(`CORS blocked origin: ${origin}`);
+    return callback(new Error('Not allowed by CORS'), false);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
 
 // Body parser

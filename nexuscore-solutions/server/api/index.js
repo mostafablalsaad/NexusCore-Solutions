@@ -1,25 +1,32 @@
 const serverless = require('serverless-http');
 const app = require('../src/app');
 
-// Export the serverless handler for Vercel
-module.exports = serverless(app);
+// Configure serverless-http for Vercel
+const handler = serverless(app, {
+  binary: ['image/*', 'application/pdf'],
+});
 
-// For local development
-if (process.env.NODE_ENV  == "development" ) {
+// Export for Vercel
+module.exports = handler;
+
+// For local development only
+if (process.env.NODE_ENV !== 'production' && require.main === module) {
   const PORT = process.env.PORT || 5000;
+
   app.listen(PORT, () => {
     console.log(`
-TPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPW
-Q                                                           Q
-Q   =� NexusCore Solutions API Server                      Q
-Q                                                           Q
-Q   Environment: ${process.env.NODE_ENV || 'development'}                              Q
-Q   Port: ${PORT}                                             Q
-Q   Status:  Running                                      Q
-Q                                                           Q
-Q   Health Check: http://localhost:${PORT}/api/health        Q
-Q                                                           Q
-ZPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP]
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   🚀 NexusCore Solutions API Server                      ║
+║                                                           ║
+║   Environment: ${(process.env.NODE_ENV || 'development').padEnd(39)}║
+║   Port: ${String(PORT).padEnd(50)}║
+║   Status: ✅ Running                                      ║
+║                                                           ║
+║   Health Check: http://localhost:${PORT}/api/health        ║
+║   API Base URL: http://localhost:${PORT}/api              ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
     `);
   });
 }

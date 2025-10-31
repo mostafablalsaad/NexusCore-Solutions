@@ -2,9 +2,12 @@ node_modules
 .env
 .env.local
 .git
-.vscode
+.gitignore
+README.md
 *.log
-uploads/
-!uploads/.gitkeep
-dist
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .DS_Store
+uploads/*
+!uploads/.gitkeep
