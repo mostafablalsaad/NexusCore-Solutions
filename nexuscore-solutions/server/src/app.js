@@ -22,10 +22,10 @@ app.use(helmet({
 
 // CORS configuration
 
-const allowedOrigins = "http://localhost:5174";
-// const allowedOrigins = process.env.CLIENT_URL 
-//   ? process.env.CLIENT_URL
-//   :  "*";
+// const allowedOrigins = "http://localhost:5174";
+const allowedOrigins = process.env.CLIENT_URL 
+  ? process.env.CLIENT_URL
+  :  "*";
 
 console.log("the origin of the cors for the production",allowedOrigins);
 app.use(cors({
