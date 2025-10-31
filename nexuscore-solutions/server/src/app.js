@@ -23,7 +23,7 @@ app.use(helmet({
 // CORS configuration
 const allowedOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(',').map(url => url.trim())
-  : ["http://localhost:5173", "http://localhost:5174"];
+  : "*";
 
 console.log("Allowed CORS origins:", allowedOrigins);
 
