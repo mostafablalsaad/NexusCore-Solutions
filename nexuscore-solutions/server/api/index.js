@@ -10,7 +10,7 @@ const handler = serverless(app, {
 module.exports = handler;
 
 // For local development only
-if (process.env.NODE_ENV !== 'production' && require.main === module) {
+if (process.env.NODE_ENV !== 'deployment') {
   const PORT = process.env.PORT || 5000;
 
   app.listen(PORT, () => {
