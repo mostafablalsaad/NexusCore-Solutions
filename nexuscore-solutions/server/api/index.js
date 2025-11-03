@@ -5,7 +5,7 @@ const app = require('../src/app');
 const handler = serverless(app);
 
 // Export for Vercel
-// module.exports = handler;
+module.exports = handler;
 
 // For local development only
 if (process.env.NODE_ENV !== 'deployment') {
