@@ -9,7 +9,7 @@ import { ROUTES } from './utils/constants';
 
 // Public Pages
 import Home from './pages/Home';
-// import Services from './pages/Services';
+import Services from './pages/Services';
 import Projects from './pages/Projects';
 // import ProjectDetail from './pages/ProjectDetail';
 import CaseStudies from './pages/CaseStudies';
@@ -25,7 +25,6 @@ import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageServices from './components/admin/ManageServices';
 import ManageProjects from './components/admin/ManageProjects';
-import Services from './pages/Services';
 
 
 
@@ -61,7 +60,7 @@ function App() {
               {/* Admin Auth Route */}
               <Route path={ROUTES.ADMIN.LOGIN} element={<AdminLogin />} />
 
-              Protected Admin Routes
+              {/* Protected Admin Routes */}
               <Route
                 path={ROUTES.ADMIN.DASHBOARD}
                 element={
