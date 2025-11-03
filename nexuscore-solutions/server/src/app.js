@@ -94,6 +94,8 @@ const contactRoutes = require('./routes/contact');
 const newsletterRoutes = require('./routes/newsletter');
 const dashboardRoutes = require('./routes/dashboard');
 
+
+console.log("Mounting API routes...");
 // Apply DB connection middleware to all API routes (except health check)
 app.use('/api', (req, res, next) => {
   // Skip DB connection for health check
