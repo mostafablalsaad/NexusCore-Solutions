@@ -10,6 +10,27 @@ const connectDB = async () => {
     return cachedConnection;
   }
 
+  // If connection is in progress, don't start another one
+  if (mongoose.connection.readyState === 2) {
+    console.log('⏳ Connection already in progress, waiting...');
+    // Wait for existing connection attempt
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Waited too long for existing connection'));
+      }, 20000);
+
+      mongoose.connection.once('connected', () => {
+        clearTimeout(timeout);
+        resolve(cachedConnection);
+      });
+
+      mongoose.connection.once('error', (err) => {
+        clearTimeout(timeout);
+        reject(err);
+      });
+    });
+  }
+
   try {
     // Check if MONGODB_URI exists
     if (!process.env.MONGODB_URI) {
@@ -19,24 +40,27 @@ const connectDB = async () => {
     const options = {
       bufferCommands: false, // Disable buffering for serverless
       maxPoolSize: 10, // Connection pool size for serverless
-      minPoolSize: 2, // Minimum pool size
-      serverSelectionTimeoutMS: 10000, // Reduced to 10s for faster failures
+      minPoolSize: 1, // Reduced from 2 to 1 for faster cold starts
+      serverSelectionTimeoutMS: 8000, // Reduced to 8s
       socketTimeoutMS: 45000,
       family: 4, // Use IPv4, skip IPv6 for faster connection
-      connectTimeoutMS: 10000, // 10s connection timeout
+      connectTimeoutMS: 8000, // 8s connection timeout
     };
 
     console.log('🔄 Connecting to MongoDB...');
+    const connectStart = Date.now();
 
-    // Set a timeout for the entire connection attempt (15 seconds max)
+    // Set a timeout for the entire connection attempt (12 seconds max)
     const connectWithTimeout = Promise.race([
       mongoose.connect(process.env.MONGODB_URI, options),
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Connection timeout after 15s')), 15000)
+        setTimeout(() => reject(new Error('Connection timeout after 12s')), 12000)
       )
     ]);
 
     const conn = await connectWithTimeout;
+    const connectTime = Date.now() - connectStart;
+    console.log(`⚡ MongoDB connection established in ${connectTime}ms`);
 
     cachedConnection = conn;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);

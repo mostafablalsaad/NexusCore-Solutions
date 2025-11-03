@@ -67,19 +67,7 @@ if (process.env.NODE_ENV === 'development') {
 // Rate limiting
 
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'Server is running',
-    timestamp: new Date().toISOString(),
-  });
-});
-
-
-app.use('/api/', apiLimiter);
-
-// Database connection middleware
+// Database connection middleware (import early)
 const ensureDbConnection = require('./middleware/dbConnection');
 
 // Import routes
@@ -94,9 +82,18 @@ const contactRoutes = require('./routes/contact');
 const newsletterRoutes = require('./routes/newsletter');
 const dashboardRoutes = require('./routes/dashboard');
 
+// Health check (no middleware, super fast)
+app.get('/api/health', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Server is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
 
-console.log("Mounting API routes...");
 // Apply DB connection middleware to all API routes (except health check)
+// This runs BEFORE rate limiter to fail fast if DB is down
 app.use('/api', (req, res, next) => {
   // Skip DB connection for health check
   if (req.path === '/health') {
@@ -104,6 +101,15 @@ app.use('/api', (req, res, next) => {
   }
   return ensureDbConnection(req, res, next);
 });
+
+// Apply rate limiter AFTER DB check (so we don't rate limit DB connection attempts)
+// Disabled in production for now to prevent serverless issues
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api/', apiLimiter);
+  console.log('✅ Rate limiting enabled');
+} else {
+  console.log('⚠️ Rate limiting disabled in production (serverless)');
+}
 
 // Mount routes
 app.use('/api/auth', authRoutes);
