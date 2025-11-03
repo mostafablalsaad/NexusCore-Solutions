@@ -8,10 +8,14 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const { apiLimiter } = require('./middleware/rateLimit');
 
-// Connect to database
-connectDB();
-
 const app = express();
+
+// Connect to database (don't await, let it connect in background)
+// Connection will be cached for subsequent requests
+connectDB().catch(err => {
+  console.error('Initial database connection failed:', err.message);
+  // Don't throw - allow app to start, connection will retry on requests
+});
 
 app.set('trust proxy', 1);
 
@@ -20,6 +24,7 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
+console.log("CLIENT_URL:", process.env.CLIENT_URL);
 // CORS configuration
 const allowedOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(',').map(url => url.trim())
@@ -71,7 +76,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+
 app.use('/api/', apiLimiter);
+
+// Database connection middleware
+const ensureDbConnection = require('./middleware/dbConnection');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -84,6 +93,15 @@ const achievementRoutes = require('./routes/achievements');
 const contactRoutes = require('./routes/contact');
 const newsletterRoutes = require('./routes/newsletter');
 const dashboardRoutes = require('./routes/dashboard');
+
+// Apply DB connection middleware to all API routes (except health check)
+app.use('/api', (req, res, next) => {
+  // Skip DB connection for health check
+  if (req.path === '/health') {
+    return next();
+  }
+  return ensureDbConnection(req, res, next);
+});
 
 // Mount routes
 app.use('/api/auth', authRoutes);

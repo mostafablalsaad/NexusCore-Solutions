@@ -2,9 +2,7 @@ const serverless = require('serverless-http');
 const app = require('../src/app');
 
 // Configure serverless-http for Vercel
-const handler = serverless(app, {
-  binary: ['image/*', 'application/pdf'],
-});
+const handler = serverless(app);
 
 // Export for Vercel
 module.exports = handler;

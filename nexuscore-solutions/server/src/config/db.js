@@ -18,13 +18,25 @@ const connectDB = async () => {
 
     const options = {
       bufferCommands: false, // Disable buffering for serverless
-      maxPoolSize: 10, // Connection pool size
-      serverSelectionTimeoutMS: 5000,
+      maxPoolSize: 10, // Connection pool size for serverless
+      minPoolSize: 2, // Minimum pool size
+      serverSelectionTimeoutMS: 10000, // Reduced to 10s for faster failures
       socketTimeoutMS: 45000,
+      family: 4, // Use IPv4, skip IPv6 for faster connection
+      connectTimeoutMS: 10000, // 10s connection timeout
     };
 
-    console.log('Connecting to MongoDB...');
-    const conn = await mongoose.connect(process.env.MONGODB_URI, options);
+    console.log('🔄 Connecting to MongoDB...');
+
+    // Set a timeout for the entire connection attempt (15 seconds max)
+    const connectWithTimeout = Promise.race([
+      mongoose.connect(process.env.MONGODB_URI, options),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Connection timeout after 15s')), 15000)
+      )
+    ]);
+
+    const conn = await connectWithTimeout;
 
     cachedConnection = conn;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
@@ -34,11 +46,13 @@ const connectDB = async () => {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
     cachedConnection = null;
 
-    // Don't throw in serverless - let the app start and retry on next request
+    // In production, log but don't throw - allow retry on next request
     if (process.env.NODE_ENV === 'production') {
-      console.error('Failed to connect to MongoDB. Will retry on next request.');
+      console.error('⚠️ Failed to connect to MongoDB. Will retry on next request.');
       return null;
     }
+
+    // In development, throw the error for visibility
     throw error;
   }
 };
