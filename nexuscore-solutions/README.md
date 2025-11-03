@@ -523,3 +523,35 @@ db.users.find()
 ## 📖 Additional Resources
 
 - [React Documentation](https://react.dev)
+
+
+
+
+## vercel json 
+// {
+//   "version": 2,
+//   "builds": [
+//     {
+//       "src": "api/index.js",
+//       "use": "@vercel/node",
+//       "config": {
+//         "maxDuration": 30
+//       }
+//     }
+//   ],
+//   "routes": [
+//     {
+//       "src": "/(.*)",
+//       "dest": "/api/index.js"
+//     }
+//   ],
+//   "env": {
+//     "NODE_ENV": "production"
+//   },
+//   "functions": {
+//     "api/index.js": {
+//       "maxDuration": 30
+//     }
+//   }
+// }
+## ## ## ## ## ## ## ## ## ## 

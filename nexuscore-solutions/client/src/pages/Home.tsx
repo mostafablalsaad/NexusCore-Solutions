@@ -38,7 +38,7 @@ const Home: React.FC = () => {
   return (
     <PublicLayout>
       {/* Hero Section */}
-      <section className="relative bg-[url(assets/home.png)] bg-cover bg-center text-white overflow-hidden">
+      <section className="relative bg-[url(/home.png)] bg-cover bg-center text-white overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-10"></div>
         <div className="container-custom relative py-20 md:py-32">
           <motion.div
