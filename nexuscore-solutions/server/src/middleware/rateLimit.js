@@ -15,10 +15,11 @@ const authLimiter = rateLimit({
   max: 5,
   message: 'Too many login attempts, please try again later.',
   skipSuccessfulRequests: true,
-  validate:{
+    validate:{
     trustProxy:false,
     xForwardedForHeader: false,
   }
+  
 });
 
 // Contact form limiter
