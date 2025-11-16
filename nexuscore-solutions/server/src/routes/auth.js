@@ -22,8 +22,10 @@ router.post('/', protect, admin, validate(schemas.service), createService);
 router.put('/:id', protect, admin, validate(schemas.service), updateService);
 router.delete('/:id', protect, admin, deleteService);
 
+
 // Image upload route
 router.post("/upload-image", upload.single("image"), (req, res) => {
+  console.log("File received:", req.file);
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
   }

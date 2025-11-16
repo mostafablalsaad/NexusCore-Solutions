@@ -8,6 +8,7 @@ const { exportToCSV } = require('../utils/csvExport');
 exports.submitContact = async (req, res) => {
   try {
     const { name, email, company, phone, message } = req.body;
+    console.log(req.body);
 
     const contactMessage = await ContactMessage.create({
       name,

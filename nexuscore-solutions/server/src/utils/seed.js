@@ -1,14 +1,16 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-const connectDB = require('../config/db');
-const Service = require('../models/Service');
-const Project = require('../models/Project');
-const CaseStudy = require('../models/CaseStudy');
-const Whitepaper = require('../models/Whitepaper');
-const TeamMember = require('../models/TeamMember');
-const Achievement = require('../models/Achievement');
-
-const seedData = async () => {
+// require('dotenv').config();
+import dotenv from 'dotenv';
+// const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import connectDB from '../config/db.js';
+import Service from '../models/Service.js';
+import Project from '../models/Project.js';
+import CaseStudy from '../models/CaseStudy.js';
+import Whitepaper from '../models/Whitepaper.js';
+import TeamMember from '../models/TeamMember.js';
+import Achievement from '../models/Achievement.js';
+dotenv.config();
+export const seedData = async () => {
   try {
     await connectDB();
 
@@ -59,24 +61,84 @@ const seedData = async () => {
         fullDesc: 'Developed a comprehensive simulation platform that models renewable energy grid behavior under various conditions. The system helps optimize energy distribution and predict potential issues.',
         industry: 'renewable',
         thumbnail: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800',
+        gallery: [
+          'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800',
+          'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800',
+        ],
+        technologies: ['MATLAB', 'Simulink', 'Python', 'TensorFlow'],
+        clientName: 'GreenPower Solutions',
+        completionDate: '2023-06-15',
         featured: true,
-        relatedProject: projects[0]._id,
+        order: 1,
       },
+      {
+        title: 'Medical Device Embedded System',
+        shortDesc: 'FDA-compliant embedded software for medical imaging device',
+        fullDesc: 'Developed a safety-critical embedded system for a medical imaging device with full FDA compliance and CE marking. The system includes multiple redundancy layers and comprehensive safety features.',
+        industry: 'medical',
+        thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800',
+        gallery: [
+          'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800',
+        ],
+        technologies: ['C++', 'Real-time OS', 'Safety Standards', 'FDA 510(k)'],
+        clientName: 'MedTech Solutions',
+        completionDate: '2023-09-20',
+        featured: true,
+        order: 2,
+      },
+      {
+        title: 'Submarine Navigation System',
+        shortDesc: 'Advanced navigation and control system for underwater vehicles',
+        fullDesc: 'Designed and implemented a robust navigation system for submarine operations, featuring advanced sensor fusion and autonomous control capabilities.',
+        industry: 'submarine',
+        thumbnail: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
+        gallery: [],
+        technologies: ['C', 'Embedded Linux', 'Sensor Fusion', 'Real-time Systems'],
+        clientName: 'Naval Systems Corp',
+        completionDate: '2023-03-10',
+        featured: false,
+        order: 3,
+      },
+    ]);
+
+    // Seed Case Studies
+    console.log('📊 Seeding case studies...');
+    await CaseStudy.insertMany([
       {
         title: 'FDA-Compliant Medical Device Development',
         client: 'MedTech Solutions',
         industry: 'medical',
-        challenge: 'Developing a safety-critical medical imaging device that meets FDA 510(k) and CE Mark requirements.',
-        solution: 'Implemented a robust embedded system with multiple redundancy layers, comprehensive testing, and full compliance documentation.',
-        results: 'Successfully achieved FDA clearance in record time with zero post-market safety issues.',
+        challenge: 'Developing a safety-critical medical imaging device that meets FDA 510(k) and CE Mark requirements while maintaining competitive time-to-market.',
+        solution: 'Implemented a robust embedded system with multiple redundancy layers, comprehensive testing protocols, and full compliance documentation. Our team worked closely with regulatory consultants to ensure all requirements were met from the start.',
+        results: 'Successfully achieved FDA clearance in record time with zero post-market safety issues. The device has been deployed in over 200 healthcare facilities with exceptional reliability.',
         metrics: [
           { label: 'FDA Clearance Time', value: '8 months' },
           { label: 'Safety Incidents', value: '0' },
           { label: 'Reliability Rating', value: '99.98%' },
+          { label: 'Facilities Deployed', value: '200+' },
         ],
         thumbnail: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800',
+        pdfUrl: 'https://example.com/case-studies/medical-device-fda.pdf',
         featured: true,
         relatedProject: projects[1]._id,
+      },
+      {
+        title: 'Renewable Energy Grid Optimization',
+        client: 'GreenPower Solutions',
+        industry: 'renewable',
+        challenge: 'Managing complex renewable energy grids with intermittent power sources and unpredictable demand patterns, leading to inefficiencies and potential grid instability.',
+        solution: 'Developed a comprehensive simulation platform using advanced machine learning algorithms to predict energy patterns and optimize distribution. The system models grid behavior under various conditions and provides real-time optimization recommendations.',
+        results: 'Reduced energy waste by 35% and improved grid stability by 42%. The system now manages over 500MW of renewable energy capacity across multiple facilities.',
+        metrics: [
+          { label: 'Energy Waste Reduction', value: '35%' },
+          { label: 'Grid Stability Improvement', value: '42%' },
+          { label: 'Capacity Managed', value: '500+ MW' },
+          { label: 'ROI', value: '280%' },
+        ],
+        thumbnail: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800',
+        pdfUrl: 'https://example.com/case-studies/renewable-energy-grid.pdf',
+        featured: true,
+        relatedProject: projects[0]._id,
       },
     ]);
 
@@ -189,15 +251,20 @@ const seedData = async () => {
       },
     ]);
 
+    const caseStudies = await CaseStudy.countDocuments();
+    const whitepapers = await Whitepaper.countDocuments();
+    const teamMembers = await TeamMember.countDocuments();
+    const achievements = await Achievement.countDocuments();
+
     console.log('✅ Database seeded successfully!');
     console.log(`
     📊 Summary:
     - Services: ${services.length}
     - Projects: ${projects.length}
-    - Case Studies: 2
-    - Whitepapers: 3
-    - Team Members: 3
-    - Achievements: 4
+    - Case Studies: ${caseStudies}
+    - Whitepapers: ${whitepapers}
+    - Team Members: ${teamMembers}
+    - Achievements: ${achievements}
     `);
 
     process.exit(0);
@@ -207,4 +274,8 @@ const seedData = async () => {
   }
 };
 
-seedData();
+// Only run seedData() when this file is executed directly (npm run seed)
+// Not when it's imported as a module
+// Commented out to prevent auto-seeding on server start
+// Uncomment the line below if you want auto-seeding
+// seedData();

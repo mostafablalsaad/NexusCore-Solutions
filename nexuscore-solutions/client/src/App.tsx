@@ -25,17 +25,12 @@ import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageServices from './components/admin/ManageServices';
 import ManageProjects from './components/admin/ManageProjects';
-
-
-
-// import ManageServices from './pages/admin/ManageServices';
-// import ManageProjects from './pages/admin/ManageProjects';
-// import ManageCaseStudies from './pages/admin/ManageCaseStudies';
-// import ManageWhitepapers from './pages/admin/ManageWhitepapers';
-// import ManageTeam from './pages/admin/ManageTeam';
-// import ManageAchievements from './pages/admin/ManageAchievements';
-// import ManageMessages from './pages/admin/ManageMessages';
-// import ManageSubscribers from './pages/admin/ManageSubscribers';
+import ManageCaseStudies from './components/admin/ManageCaseStudies';
+import ManageWhitepapers from './components/admin/ManageWhitepapers';
+import ManageTeam from './components/admin/ManageTeam';
+import ManageAchievements from './components/admin/ManageAchievements';
+import ManageContact from './components/admin/ManageContact';
+import ManageNewsletter from './components/admin/ManageNewsletter';
 
 function App() {
   return (
@@ -85,7 +80,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/*
               <Route
                 path={ROUTES.ADMIN.CASE_STUDIES}
                 element={
@@ -122,7 +116,7 @@ function App() {
                 path={ROUTES.ADMIN.MESSAGES}
                 element={
                   <ProtectedRoute>
-                    <ManageMessages />
+                    <ManageContact />
                   </ProtectedRoute>
                 }
               />
@@ -130,10 +124,10 @@ function App() {
                 path={ROUTES.ADMIN.SUBSCRIBERS}
                 element={
                   <ProtectedRoute>
-                    <ManageSubscribers />
+                    <ManageNewsletter />
                   </ProtectedRoute>
                 }
-              /> */}
+              />
 
               {/* 404 Redirect */}
               <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />

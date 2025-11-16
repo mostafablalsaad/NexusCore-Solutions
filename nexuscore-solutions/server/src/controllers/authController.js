@@ -13,7 +13,7 @@ exports.login = async (req, res) => {
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
-
+    
     user.lastLogin = Date.now();
     await user.save();
 

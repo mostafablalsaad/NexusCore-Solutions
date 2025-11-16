@@ -1,3 +1,4 @@
+const { json } = require('express');
 const NewsletterSubscriber = require('../models/NewsletterSubscriber');
 const { sendNewsletterConfirmation } = require('../utils/sendEmail');
 
@@ -7,9 +8,9 @@ const { sendNewsletterConfirmation } = require('../utils/sendEmail');
 exports.subscribe = async (req, res) => {
   try {
     const { email } = req.body;
-
+    // console.log("this is the body"+json.stringify(req.body));
     // Check if already subscribed
-    let subscriber = await NewsletterSubscriber.findOne({ email });
+    let subscriber = await NewsletterSubscriber.findOne({ email }) ||{};
 
     console.log("this is the subsriber"+subscriber);
     if (subscriber.unsubscribed) {
@@ -28,14 +29,13 @@ exports.subscribe = async (req, res) => {
       }
     } else {
       // Create new subscriber
-
-    subscriber =  new NewsletterSubscriber.create({ email });
-
-    subscriber.generateConfirmToken();
-    
-      await subscriber.save();
+    console.log("this is the subsriber after save");
+    subscriber = NewsletterSubscriber.create({ email });
+    console.log("this is the subsriber after save 1"); 
+    await subscriber.save();
+    console.log("this is the subsriber after save 2");
     }
-
+    
     // Send confirmation email
     try {
       await sendNewsletterConfirmation(email, subscriber.confirmToken);
@@ -48,7 +48,7 @@ exports.subscribe = async (req, res) => {
       message: 'Please check your email to confirm your subscription',
     });
   } catch (error) {
-    res.status(500).json({ error: 'Error subscribing to newsletter' });
+    res.status(500).json({ error: 'Error subscribing to newsletter'+error.message });
   }
 };
 

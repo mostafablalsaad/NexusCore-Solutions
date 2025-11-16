@@ -39,7 +39,7 @@ const sendEmail = async ({ to, subject, html, text }) => {
     console.log(`✅ Email sent to ${to}`);
     return true;
   } catch (error) {
-    console.error('❌ Email sending failed:', error);
+    console.error('❌ Email sending failed:', error.message);
     throw error;
   }
 };

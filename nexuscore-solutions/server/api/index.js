@@ -26,6 +26,7 @@ const ensureDbConnection = require('../src/middleware/dbConnection');
 
 // Admin-only routes for CRUD operations
 const { protect, admin } = require('../src/middleware/auth');
+const { seedData } = require('../src/utils/seed');
 
 // Connect to database (don't await, let it connect in background)
 // Connection will be cached for subsequent requests
@@ -97,6 +98,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// seedData(); // Comment out - only run manually with npm run seed
 // Apply DB connection middleware to all API routes (except health check)
 // This runs BEFORE rate limiter to fail fast if DB is down
 app.use('/api', (req, res, next) => {
@@ -176,6 +178,7 @@ app.use(errorHandler);
 
 
 module.exports = app;
+
 
 
 

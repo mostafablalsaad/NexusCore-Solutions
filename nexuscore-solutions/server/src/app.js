@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
+const path = require('path');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const { apiLimiter } = require('./middleware/rateLimit');
@@ -64,7 +65,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 }
 
-// Rate limiting
+// Serve uploaded images statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Create uploads directory if not exists
+const fs = require('fs');
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 
 // Database connection middleware (import early)
@@ -158,6 +167,9 @@ app.use((req, res) => {
   });
 });
 
+app.use('/', (req, res) => {
+  res.send('NexusCore Solutions API is running');
+});
 
 // Error handler (must be last)
 app.use(errorHandler);

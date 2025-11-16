@@ -12,6 +12,7 @@ import api from '@/utils/api';
 import { Service } from '@/types';
 import { useToast } from '@/hooks/useToast';
 import { useForm } from '@/hooks/useForm';
+import ImageUpload from '../common/uploadImage';
 
 const ManageServices: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -195,12 +196,7 @@ const ManageServices: React.FC = () => {
               value={values.icon}
               onChange={handleChange}
             />
-            <Input
-              label="imageUpload"
-              name="imageUpload"
-              value={values.imageUpdated}
-              onChange={handleChange}
-            />
+            <ImageUpload/>
             <Input
               label="Order"
               name="order"

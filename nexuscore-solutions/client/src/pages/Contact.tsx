@@ -3,10 +3,18 @@ import api from '@/utils/api';
 
 import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/common/Button';
+import { Input } from '@/components/common/Input';
+import { Textarea } from '@/components/common/Textarea';
+import { Phone } from 'lucide-react';
+import PhoneInput from '@/components/common/PhoneInput';
 
 // Newsletter Form Component
 const Contact: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
+  const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useToast();
 
@@ -17,10 +25,20 @@ const Contact: React.FC = () => {
       showError('Please enter a valid email address');
       return;
     }
+    if(!company){
+      showError('Please enter your company name');
+      return;
+    }
+    if(!message){
+      showError('Please enter your message');
+      return;
+    }
+
 
     setLoading(true);
+
     try {
-      await api.post('/newsletter/subscribe', { email });
+      await api.post('/contact', { email, company, message,name,phone });
       showSuccess('Please check your email to confirm subscription');
       setEmail('');
     } catch (error: any) {
@@ -31,23 +49,67 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className='flex flex-row md:flex-row gap-4 max-w-md mx-auto items-center justify-center '>
-    <form onSubmit={handleSubmit} className="flex w-full gap-2 flex-col md:flex-row bg-white/10 p-4 rounded-lg shadow-md">
-      <input
-        type="email"
+    <div className='max-w-2xl mx-auto my-10 gap-2'>
+    <form onSubmit={handleSubmit} className="gap-5  bg-white/10 p-2 rounded-lg shadow-md">
+
+      <div className='gap-2 mt-4'>
+        <Input
+        label='Name'
+        placeholder='Your personal name'
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+
+      <div className='gap-2 mt-4'>
+        <Input
+        label='Email'
+        placeholder='Your email address'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-      />
+        />
+      </div>
+
+      <div className='gap-2 mt-4'>
+       <PhoneInput
+       
+       />
+      </div>
+      
+      
+      <div className='gap-2 mt-4'>
+        <Input
+        placeholder='Company name '
+        label='Company name'
+        value={company}
+        onChange={(e) => setCompany(e.target.value)}
+        />
+      </div>
+    
+
+      <div className='gap-2 mt-4'>
+      <Textarea
+        placeholder='Your message'
+        label='Your message'
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        >
+      </Textarea>
+
+      </div>
+
+
+
       <Button
         type="submit"
         variant="secondary"
         loading={loading}
         disabled={loading}
+        className='gap-2 mt-4'
       >
-        Subscribe
+        Send us
       </Button>
+     
     </form>
     </div>
   );

@@ -3,7 +3,7 @@ const CaseStudy = require('../models/CaseStudy');
 // @desc    Get all case studies
 // @route   GET /api/case-studies
 // @access  Public
-exports.getCaseStudies = async (req, res) => {
+exports.getCaseStudies = async (req, res,next) => {
   try {
     const { industry, featured } = req.query;
     const query = {};
@@ -22,6 +22,7 @@ exports.getCaseStudies = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching case studies' });
+    next(error);
   }
 };
 
