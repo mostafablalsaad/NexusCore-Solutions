@@ -17,7 +17,7 @@
     "serverless",
     "vercel"
   ],
-  "author": "NexusCore Solutions",
+  "author": "Mostafa Belal",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
