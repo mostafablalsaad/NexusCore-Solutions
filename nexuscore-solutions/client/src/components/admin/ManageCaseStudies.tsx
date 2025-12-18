@@ -8,7 +8,7 @@ import { Select } from '@/components/common/Select';
 import { Modal } from '@/components/common/Modal';
 import { Loader } from '@/components/common/Loader';
 import { Badge } from '@/components/common/Badge';
-import { Plus, Edit, Trash2, FileText, X } from 'lucide-react';
+import { Plus, Edit, Trash2, X } from 'lucide-react';
 import api from '@/utils/api';
 import { CaseStudy, Project } from '@/types';
 import { useToast } from '@/hooks/useToast';

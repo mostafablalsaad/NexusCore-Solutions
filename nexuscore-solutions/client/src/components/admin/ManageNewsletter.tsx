@@ -158,13 +158,7 @@ const ManageNewsletter: React.FC = () => {
 
         {/* Filters and Search */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1">
-            <SearchBar
-              value={searchTerm}
-              onChange={setSearchTerm}
-              placeholder="Search by email..."
-            />
-          </div>
+        {/* //search bar */}
           <div className="flex gap-2">
             <Button
               variant={filter === 'all' ? 'primary' : 'outline'}

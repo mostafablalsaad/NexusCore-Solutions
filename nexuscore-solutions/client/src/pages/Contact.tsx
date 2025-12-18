@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '@/utils/api';
 
 import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
 import { Textarea } from '@/components/common/Textarea';
-import { Phone } from 'lucide-react';
+// import { Phone } from 'lucide-react';
 import PhoneInput from '@/components/common/PhoneInput';
 
 // Newsletter Form Component
@@ -46,6 +46,10 @@ const Contact: React.FC = () => {
     } finally {
       setLoading(false);
     }
+
+    useEffect(() => {
+      setPhone('');
+    }, []);
   };
 
   return (
