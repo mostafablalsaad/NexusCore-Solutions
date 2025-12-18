@@ -4,7 +4,7 @@ import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { Loader } from '@/components/common/Loader';
 import { Badge } from '@/components/common/Badge';
-import { SearchBar } from '@/components/common/SearchBar';
+// import { SearchBar } from '@/components/common/SearchBar';
 import { Pagination } from '@/components/common/Pagination';
 import { UserPlus, Trash2, Mail, CheckCircle, XCircle, Download } from 'lucide-react';
 import api from '@/utils/api';
@@ -15,7 +15,7 @@ import { formatDate } from '@/utils/helpers';
 const ManageNewsletter: React.FC = () => {
   const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm] = useState('');
   const [filter, setFilter] = useState<'all' | 'confirmed' | 'unconfirmed'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
