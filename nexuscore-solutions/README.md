@@ -121,13 +121,14 @@ NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/nexuscore
 
 # JWT
-JWT_SECRET=16c4e681ffe789e1954d78bda54b2db9d3ca3762fc6f7201e5572bcf0340c3d2
+JWT_SECRET=replace-with-a-long-random-value
 JWT_EXPIRE=7d
 
 # Email (SendGrid)
 EMAIL_FROM=noreply@nexuscore.com
 SENDGRID_API_KEY=your-sendgrid-api-key
 ADMIN_EMAIL=admin@nexuscore.com
+ADMIN_PASSWORD=replace-with-a-strong-password
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME=your-cloud-name
@@ -149,7 +150,7 @@ npm run create-admin
 
 This creates:
 - Email: `admin@nexuscore.com`
-- Password: `admin123456`
+- Password: the `ADMIN_PASSWORD` value from your `.env`
 
 **Seed sample data (optional):**
 ```bash
@@ -191,7 +192,7 @@ Frontend runs on `http://localhost:5173`
 - **Website**: http://localhost:5173
 - **Admin Panel**: http://localhost:5173/admin/login
   - Email: `admin@nexuscore.com`
-  - Password: `admin123456`
+  - Password: the `ADMIN_PASSWORD` value from your `.env`
 
 ## 📝 API Documentation
 
@@ -424,7 +425,7 @@ npm test
 ```bash
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@nexuscore.com","password":"admin123456"}'
+  -d '{"email":"admin@nexuscore.com","password":"<ADMIN_PASSWORD>"}'
 ```
 
 **Get Projects:**
