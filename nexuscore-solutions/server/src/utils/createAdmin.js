@@ -4,6 +4,12 @@ const User = require('../models/User');
 const connectDB = require('../config/db');
 
 const createAdmin = async () => {
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password || password.length < 12) {
+    console.error('ADMIN_PASSWORD must be set to at least 12 characters');
+    process.exit(1);
+  }
+
   try {
     await connectDB();
 
@@ -19,13 +25,12 @@ const createAdmin = async () => {
     const admin = await User.create({
       name: 'Admin User',
       email: 'admin@nexuscore.com',
-      password: 'admin123456', // Will be hashed automatically
+      password, // Will be hashed automatically
       role: 'super_admin',
     });
 
     console.log('✅ Admin user created successfully!');
     console.log('📧 Email: admin@nexuscore.com');
-    console.log('🔑 Password: admin123456');
     console.log('⚠️  Please change the password after first login!');
     
     process.exit(0);
